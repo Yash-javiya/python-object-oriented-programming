@@ -15,6 +15,10 @@ class Asset(ABC):
     @abstractmethod
     def __str__(self):
         pass
+    
+    @abstractmethod
+    def __lt__(self, other):
+        pass
 
 
 class Stock(Asset):
@@ -23,6 +27,15 @@ class Stock(Asset):
         self.company = company
         self.ticker = ticker
 
+    def __str__(self):
+        return f"{self.ticker}: {self.company} -- ${self.price}"
+
+    def __lt__(self, other):
+        if not isinstance(other, Stock):
+            return NotImplemented
+        else:
+            return self.price < other.price
+
 
 class Bond(Asset):
     def __init__(self, price, description, duration, yieldamt):
@@ -30,6 +43,15 @@ class Bond(Asset):
         self.description = description
         self.duration = duration
         self.yieldamt = yieldamt
+
+    def __str__(self):
+        return f"{self.description}: {self.duration}yr : ${self.price} : {self.yieldamt}%"
+
+    def __lt__(self, other):
+        if not isinstance(other, Bond):
+            return NotImplemented
+        else:
+            return self.yieldamt < other.yieldamt
 
 
 # ~~~~~~~~~ TEST CODE ~~~~~~~~~
